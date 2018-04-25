@@ -2,8 +2,9 @@
 #define _TEXTURESHADERCLASS_H_
 
 #include <d3d11.h>
-#include <d3dx10math.h>
-#include <d3dx11async.h>
+//#include <d3dx10math.h>
+//#include <d3dx11async.h>
+#include <d3dcompiler.h>
 #include <fstream>
 #include <DirectXMath.h>
 class TextureShaderClass
@@ -26,9 +27,9 @@ public:
 	bool Render(ID3D11DeviceContext*, int, int, DirectX::XMMATRIX, DirectX::XMMATRIX, DirectX::XMMATRIX, ID3D11ShaderResourceView*);
 
 private:
-	bool InitializeShader(ID3D11Device*, HWND, CHAR*, CHAR*);
+	bool InitializeShader(ID3D11Device*, HWND, WCHAR*, WCHAR*);
 	void ShutdownShader();
-	void OutputShaderErrorMessage(ID3D10Blob*, HWND, CHAR*);
+	void OutputShaderErrorMessage(ID3D10Blob*, HWND, WCHAR*);
 
 	bool SetShaderParameters(ID3D11DeviceContext*, DirectX::XMMATRIX, DirectX::XMMATRIX, DirectX::XMMATRIX, ID3D11ShaderResourceView*);
 	void RenderShader(ID3D11DeviceContext*, int, int);

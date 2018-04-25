@@ -1,13 +1,14 @@
 #include "Model.h"
 #include "GraphicsClass.h"
 #include <random>
-
+#include "SandManager.h"
 
 bool Model::initialize(char* model_file_name, int instance_count)
 {
+	
+	
 	bool result;
-	m_instance_count = instance_count;
-
+	
 	if (!LoadModel(model_file_name))
 		return false;
 
@@ -103,7 +104,6 @@ bool Model::initializeBuffers(ID3D11Device * device)
 	if (!m_instances)
 		return false;
 
-
 	instance_buffer_description.Usage = D3D11_USAGE_DYNAMIC;
 	instance_buffer_description.ByteWidth = sizeof(InstanceType) * m_instance_count;
 	instance_buffer_description.BindFlags = D3D11_BIND_VERTEX_BUFFER;
@@ -165,46 +165,12 @@ void Model::renderBuffers(ID3D11DeviceContext* device_context)
 	device_context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 }
 
-//bool Model::LoadTexture(ID3D11Device * device, CHAR *filename)
-//{
-//	bool result;
-//
-//
-//	// Create the texture object.
-//	m_Texture = new Texture;
-//	if (!m_Texture)
-//	{
-//		return false;
-//	}
-//
-//	// Initialize the texture object.
-//	result = m_Texture->Initialize(device, filename);
-//	if (!result)
-//	{
-//		return false;
-//	}
-//
-//	return true;
-//
-//}
-//
-//void Model::ReleaseTexture()
-//{
-//	// Release the texture object.
-//	if (m_Texture)
-//	{
-//		m_Texture->Shutdown();
-//		delete m_Texture;
-//		m_Texture = 0;
-//	}
-//
-//	return;
-//}
 
 
 
 void Model::initInstances()
 {
+	srand(time(NULL));
 	D3D11_MAPPED_SUBRESOURCE mapped_resource;
 	bool result = false;
 
@@ -219,15 +185,19 @@ void Model::initInstances()
 	{
 		auto randomspawn = CreateRandomPosition();
 		float x = 0, y = 0, z = 0;
-	
+		
 		DirectX::XMMATRIX world_matrix = DirectX::XMMatrixIdentity();
+		
 		world_matrix *= DirectX::XMMatrixTranslation(randomspawn.x, randomspawn.y, randomspawn.z);
 		world_matrix = DirectX::XMMatrixTranspose(world_matrix);
-
-		m_instances[i].world_matrix = world_matrix;
 		
+		m_instances[i].world_matrix = world_matrix;
+		m_instances[i].mass = rand() % 3 + 1; // diffo massooos
+
 		instances[i].world_matrix = m_instances[i].world_matrix;
 		m_instances[i].m_position = (randomspawn);
+	
+		
 		spawn.y += 5;
 		w++;
 		if (w == 10)
@@ -236,10 +206,11 @@ void Model::initInstances()
 			spawn.z -= 5;
 			w = 0;
 		}
-		
+		m_instances[40].radius = 10.0;
+		m_instances[40].mass = 10.0;
 	}
-	//translateScale(0, 1, 1, 1);
 	
+
 	GraphicsClass::m_direct_3d->getRawDeviceContext()->Unmap(m_instance_buffer, 0);
 }
 
@@ -252,14 +223,18 @@ void Model::translatePosition(int index, float x, float y, float z)
 	DirectX::XMFLOAT3 temppos = { GetPosition(index).x + x, GetPosition(index).y + y, GetPosition(index).z + z };
 	
 	SetPosition(index, temppos);
-	result = GraphicsClass::m_direct_3d->getRawDeviceContext()->Map(m_instance_buffer, 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
+	result = GraphicsClass::m_direct_3d->getRawDeviceContext()->Map(m_instance_buffer, 0, 
+		D3D11_MAP_WRITE_DISCARD, 0, &mapped_resource);
 	if (FAILED(result))
 		return;
 
 	InstanceType* instances = reinterpret_cast<InstanceType*>(mapped_resource.pData);
 
 	DirectX::XMMATRIX world_matrix = m_instances[index].world_matrix;
-	world_matrix *= DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(x, y, z));
+	world_matrix = DirectX::XMMatrixTranspose(DirectX::XMMatrixTranslation(x, y, z));
+	m_instances[index].m_position.x = x;
+	m_instances[index].m_position.y = y;
+	m_instances[index].m_position.z = z;
 	//world_matrix = DirectX::XMMatrixTranspose(world_matrix);
 
 	m_instances[index].world_matrix = world_matrix;
@@ -309,7 +284,7 @@ void Model::translateScale(int index, float x, float y, float z)
 	InstanceType* instances = reinterpret_cast<InstanceType*>(mapped_resource.pData);
 	
 	DirectX::XMMATRIX world_matrix = m_instances[index].world_matrix;
-	world_matrix *= /*DirectX::XMMatrixTranspose(*/DirectX::XMMatrixScaling(x,y,z);
+	world_matrix *= DirectX::XMMatrixTranspose(DirectX::XMMatrixScaling(x,y,z));
 
 	m_instances[index].world_matrix = world_matrix;
 	instances[index].world_matrix = m_instances[index].world_matrix;
@@ -321,7 +296,7 @@ const DirectX::XMFLOAT3 Model::CreateRandomPosition()
 {
 	std::random_device randDevice;
 	std::mt19937 generate(randDevice());
-	std::uniform_real_distribution<> distribute(static_cast<double>(-20), static_cast<double>(20)); // both inclusive
+	std::uniform_real_distribution<> distribute(static_cast<double>(100), static_cast<double>(150));
 
 
 	auto x = static_cast<float>(distribute(generate));
@@ -370,22 +345,160 @@ bool Model::isColliding(int index)
 
 	}
 	return false;
+} //Box collider
+
+
+DirectX::XMFLOAT3 Model::getCollisionImpulse()
+{
+	
+	float x = impulse.x;
+	float y = impulse.y;
+	float z = impulse.z;
+	return (DirectX::XMFLOAT3(x,y,z));
 }
 
-void Model::calcVelocity(int index)
+void Model::sphereCollisionResponse(int index, int i)
 {
+	
+	float m1, m2, x1, x2;
+	Vector3 temp;
+	Vector3 v1temp, vector1, vector2, vector1x, vector2x, vector1y, vector2y, x(temp.convertXMFLOAT3toVec3(
+		MinusFloat3(m_instances[index].m_position, m_instances[i].m_position)));
+	
+	x.normalize();
+	
+	float a, b, c;
+	
+	vector1 = Vector3(temp.convertXMFLOAT3toVec3(m_instances[index].m_velocity));
+	x1 = x.dot(vector1);
+	vector1x = x * x1;
+	vector1y = vector1 - vector1x;
+	m1 = m_instances[index].mass;
+
+	x = x * -1;
+	vector2 = (temp.convertXMFLOAT3toVec3(m_instances[i].m_velocity));
+	x2 = x.dot(vector2);
+	vector2x = x * x2;
+	vector2y = vector2 - vector2x;
+	m2 = m_instances[i].mass;
+
+	Vector3 newIndexVec = Vector3(vector1x*(m1 - m2) / (m1 + m2) + vector2x * (2 * m2) / (m1 + m2) + vector1y);
+	Vector3 newIVec = Vector3(vector1x*(2 * m1) / (m1 + m2) + vector2x * (m2 - m1) / (m1 + m2) + vector2y);
+
+	newIndexVel = temp.convertVec3toXMFLOAT3(newIndexVec);
+	newIVel = temp.convertVec3toXMFLOAT3(newIVec);
+	
+
+
+	
+}
+
+bool Model::sphereColliding(int index)
+{
+	
+	for (int i = 0; i < m_instance_count; i++)
+	{
+		float result = sqrtf(pow((m_instances[index].m_position.x - m_instances[i].m_position.x), 2)+
+			pow((m_instances[index].m_position.y - m_instances[i].m_position.y), 2)+
+				pow((m_instances[index].m_position.z - m_instances[i].m_position.z), 2));
+
+		
+		if (result <= (m_instances[i].radius + m_instances[index].radius))
+		{
+			if (index == i)
+			{
+				return false;
+			}
+			sphereCollisionResponse(index, i);
+			return true;
+		}
+	}
+
+	return false;
+
+
+	
+}
+
+void Model::sphereCollisionCalc(int index, int i)
+{
+
+	float deltaX = m_instances[i].m_position.x - m_instances[index].m_position.x +m_instances[i].radius;
+	float deltaY = m_instances[i].m_position.y - m_instances[index].m_position.y + m_instances[i].radius;
+	float deltaZ = m_instances[i].m_position.z - m_instances[index].m_position.z+ m_instances[i].radius;
+	float SqaureValueCheck = ((deltaX + deltaY + deltaZ)) * (m_instances[i].m_velocity.x +
+		m_instances[i].m_velocity.y +
+		m_instances[i].m_velocity.z);
+	if (SqaureValueCheck < 0)
+	{
+		SqaureValueCheck*-1;
+	}
+	float rootedVal = (sqrt(SqaureValueCheck));
+	float value = ((deltaX * m_instances[i].m_velocity.x) +       // gives angle of i for 2 colliding spheres i and index
+		(deltaY * m_instances[i].m_velocity.y) +
+		(deltaZ * m_instances[i].m_velocity.z));
+	
+	
+	float angle = acos(((deltaX * m_instances[i].m_velocity.x) +       // gives angle of i for 2 colliding spheres i and index
+		(deltaY * m_instances[i].m_velocity.y) +
+		(deltaZ * m_instances[i].m_velocity.z)) /
+		(sqrt(SqaureValueCheck/*(deltaX + deltaY + deltaZ )) * (m_instances[i].m_velocity.x +
+			m_instances[i].m_velocity.y +
+			m_instances[i].m_velocity.z)*/)));
+	
+	
+	Vector3 centerVel1 = Vector3((m_instances[i].m_velocity.x * cos(angle)),
+		(m_instances[i].m_velocity.y * cos(angle)),
+		(m_instances[i].m_velocity.z * cos(angle)));
+
+	Vector3 centerVel2 = Vector3((m_instances[index].m_velocity.x * cos(angle)),
+		(m_instances[index].m_velocity.y * cos(angle)),
+		(m_instances[index].m_velocity.z * cos(angle)));
+
+	
+
+	Vector3 vnormalI = (vnormalI.convertXMFLOAT3toVec3(m_instances[i].m_velocity)) - centerVel1;
+	Vector3 newVel = vnormalI + centerVel2;
+	
+	newIndexVel = newVel.convertVec3toXMFLOAT3(newVel) ;
+	/*newFloatVel = newVel.convertVec3toXMFLOAT3(newVel);*/
+
+}
+
+void Model::resolveCollision(int index, int i)
+{
+	const float cor = 0.7f;
+	Vector3 v = Vector3((m_instances[index].m_velocity.x - m_instances[i].m_velocity.x),
+		(m_instances[index].m_velocity.y - m_instances[i].m_velocity.y),
+		(m_instances[index].m_velocity.z - m_instances[i].m_velocity.z));
+	Vector3 collidingS = Vector3((m_instances[i].m_velocity.x),
+		(m_instances[i].m_velocity.x),
+		(m_instances[i].m_velocity.x));
+
+	float vn = v.dot(v,collidingS);
+	float imp = ((-(1.0f + cor)* vn) / (m_instances[index].mass + m_instances[i].mass)); //divided by the mass of the two spheres
+	Vector3 pulse = collidingS * imp;
+impulse = pulse.convertVec3toXMFLOAT3(pulse);
+	
 	
 
 }
 
-void Model::SetCollided(int index, bool col)
+void Model::setVeolcity(int index, DirectX::XMFLOAT3 velocity)
 {
-	m_instances[index].colliding = col;
+	m_instances[index].m_velocity = velocity;
+
 }
 
-bool Model::getCollided(int index)
+void Model::setCollidedSphere(int i)
 {
-	return m_instances[index].colliding;
+	collidedSphere = i;
+}
+
+int Model::getCollidedSphere()
+{
+
+	return collidedSphere;
 }
 
 void Model::spacialHashing()
@@ -410,6 +523,27 @@ void Model::createGrid()
 				
 		}
 
+}
+
+int Model::getMass(int i)
+{
+	return m_instances[i].mass;
+}
+
+void Model::setMass(int i, int massNum)
+{
+	m_instances[i].mass = massNum;
+
+}
+
+int Model::GetCellCount()
+{
+	return cellCount;
+}
+
+int Model::getRadius(int i)
+{
+	return m_instances[i].radius;
 }
 
 bool Model::LoadModel(char * file_name)
@@ -470,3 +604,26 @@ void Model::ReleaseModel()
 		m_model = nullptr;
 	}
 }
+DirectX::XMFLOAT3 Model::getNewVelIndex()
+{
+	
+	return newIndexVel;
+}
+DirectX::XMFLOAT3 Model::getNewVelI()
+{
+	return newIVel;
+}
+
+DirectX::XMFLOAT3 Model::MinusFloat3(DirectX::XMFLOAT3 a, DirectX::XMFLOAT3 b)
+{
+	DirectX::XMFLOAT3 minusF = DirectX::XMFLOAT3((a.x - b.x), (a.y - b.y), (a.z - b.z));
+	return minusF;
+}
+
+DirectX::XMFLOAT3 Model::PlusFloat3(DirectX::XMFLOAT3 a, DirectX::XMFLOAT3 b)
+{
+	DirectX::XMFLOAT3 plusF = DirectX::XMFLOAT3((a.x + b.x), (a.y + b.y), (a.z + b.z));
+
+	return plusF;
+}
+

@@ -2,7 +2,7 @@
 
 bool ColorShader::initialize(ID3D11Device* device, HWND h_window)
 {
-	if (!initializeShader(device, h_window, "../DirectX/Color.vs", "../DirectX/Color.ps"))
+	if (!initializeShader(device, h_window, L"../DirectX/Color.vs", L"../DirectX/Color.ps"))
 		return false;
 
 	return true;
@@ -31,7 +31,7 @@ bool ColorShader::render(ID3D11DeviceContext* device_context, int vertex_count, 
 
 
 
-bool ColorShader::initializeShader(ID3D11Device* device, HWND h_window, CHAR* vsfilename, CHAR* psfilename)
+bool ColorShader::initializeShader(ID3D11Device* device, HWND h_window, WCHAR* vsfilename, WCHAR* psfilename)
 {
 	HRESULT result;
 	ID3D10Blob* error_message;
@@ -41,9 +41,10 @@ bool ColorShader::initializeShader(ID3D11Device* device, HWND h_window, CHAR* vs
 	unsigned int num_elements = 0;
 	D3D11_BUFFER_DESC matrix_buffer_description;
 
-	result = D3DX11CompileFromFile(vsfilename, NULL, NULL, "ColorVertexShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, NULL,
-		&vertex_shader_buffer, &error_message, NULL);
-
+	/*result = D3DX11CompileFromFile(vsfilename, NULL, NULL, "ColorVertexShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, NULL,
+		&vertex_shader_buffer, &error_message, NULL);*/
+	result = D3DCompileFromFile(vsfilename, NULL, NULL, "ColorVertexShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
+		&vertex_shader_buffer, &error_message);
 	if (FAILED(result))
 	{
 		if (error_message)
@@ -54,8 +55,8 @@ bool ColorShader::initializeShader(ID3D11Device* device, HWND h_window, CHAR* vs
 		return false;
 	}
 
-	result = D3DX11CompileFromFile(psfilename, NULL, NULL, "ColorPixelShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, NULL,
-		&pixel_shader_buffer, &error_message, NULL);
+	result = D3DCompileFromFile(psfilename, NULL, NULL, "ColorPixelShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
+		&pixel_shader_buffer, &error_message);
 
 	if (FAILED(result))
 	{
@@ -187,7 +188,7 @@ void ColorShader::shutdownShader()
 
 
 
-void ColorShader::outputShaderErrorMessage(ID3D10Blob* error_message, HWND h_window, CHAR* shader_file_name)
+void ColorShader::outputShaderErrorMessage(ID3D10Blob* error_message, HWND h_window, WCHAR* shader_file_name)
 {
 	char* compile_errors = nullptr;
 	unsigned long long buffer_size = 0;

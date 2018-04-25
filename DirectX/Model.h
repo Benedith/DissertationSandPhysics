@@ -10,9 +10,11 @@
 //Custom Includes
 #include "Constants.h"
 #include "Texture.h"
-#include <d3dx9shape.h>
+//#include <d3dx9shape.h>
+#include "Bmath.h"
 
 
+class SandManager;
 
 class Model
 {
@@ -40,7 +42,8 @@ private:
 		DirectX::XMMATRIX world_matrix;
 		DirectX::XMFLOAT3 m_position;
 		DirectX::XMFLOAT3 m_velocity;
-		bool colliding = false;
+		float mass = 1.0f;
+		int radius = 1.0f;
 	};
 
 	struct ModelType
@@ -76,30 +79,53 @@ public:
 	const DirectX::XMFLOAT3 GetPosition(int);
 	const DirectX::XMFLOAT3 SetPosition(int,DirectX::XMFLOAT3);
 	bool isColliding(int);
-	void calcVelocity(int);
-	void SetCollided(int, bool);
-	bool getCollided(int);
+
+	
+	DirectX::XMFLOAT3 getCollisionImpulse();
+	DirectX::XMFLOAT3 getNewVelIndex();
+	DirectX::XMFLOAT3 MinusFloat3(DirectX::XMFLOAT3, DirectX::XMFLOAT3);
+	DirectX::XMFLOAT3 PlusFloat3(DirectX::XMFLOAT3, DirectX::XMFLOAT3);
+	DirectX::XMFLOAT3 getNewVelI();
+	void sphereCollisionResponse(int, int);
+	bool sphereColliding(int);
+	void sphereCollisionCalc(int, int);
+	void resolveCollision(int, int);
+
+	void setVeolcity(int,DirectX::XMFLOAT3);
+	int getCollidedSphere();
+	void setCollidedSphere(int i);
+
 	void spacialHashing();
 	void createGrid();
+	int getMass(int);
+	void setMass(int, int);
+	int GetCellCount();
+	int getRadius(int);
 private:
 	bool LoadModel(char* file_name);
 	void ReleaseModel();
-
+	
 
 	ID3D11Buffer* m_vertex_buffer = nullptr;
 	ID3D11Buffer* m_instance_buffer = nullptr;
 
 	int m_vertex_count = 0;
-	int m_instance_count = 50000;
+	int m_instance_count = 12000;
+
 	
 	float x = 0, y = 0, z = 0;
 	ModelType* m_model = nullptr;
 	Texture* m_Texture;
 	InstanceType* m_instances = nullptr;
+	SandManager* sandManager = nullptr;
 	D3D11_SUBRESOURCE_DATA m_vertex_data;
 	D3D11_SUBRESOURCE_DATA m_instance_data;
 	int grid[20][20][20];
-	
+	DirectX::XMFLOAT3 impulse;
+	DirectX::XMFLOAT3 newIVel;
+	DirectX::XMFLOAT3 newIndexVel;
+	int collidedSphere;
+	int cellCount = 225;
 };
 template <typename T>
 	class hash3

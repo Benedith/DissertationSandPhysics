@@ -23,7 +23,7 @@ bool TextureShaderClass::Initialize(ID3D11Device *device, HWND hwnd)
 {
 	bool result;
 	// Initialize the vertex and pixel shaders.
-	result = InitializeShader(device, hwnd, "../DirectX/texture.vs.hlsl", "../DirectX/texture.ps.hlsl");
+	result = InitializeShader(device, hwnd, L"../DirectX/texture.vs.hlsl", L"../DirectX/texture.ps.hlsl");
 	if (!result)
 	{
 		return false;
@@ -59,7 +59,7 @@ bool TextureShaderClass::Render(ID3D11DeviceContext* deviceContext, int vertexCo
 	
 }
 
-bool TextureShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, CHAR* vsFilename, CHAR* psFilename)
+bool TextureShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, WCHAR* vsFilename, WCHAR* psFilename)
 {
 	
 	HRESULT result;
@@ -80,8 +80,8 @@ bool TextureShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, CHAR*
 	pixelShaderBuffer = 0;
 
 	// Compile the vertex shader code.
-	result = D3DX11CompileFromFile(vsFilename, NULL, NULL, "TextureVertexShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, NULL,
-		&vertexShaderBuffer, &errorMessage, NULL);
+	result = D3DCompileFromFile(vsFilename, NULL, NULL, "TextureVertexShader", "vs_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
+		&vertexShaderBuffer, &errorMessage);
 	if (FAILED(result))
 	{
 		// If the shader failed to compile it should have writen something to the error message.
@@ -92,15 +92,15 @@ bool TextureShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, CHAR*
 		// If there was nothing in the error message then it simply could not find the shader file itself.
 		else
 		{
-			MessageBox(hwnd, vsFilename, "Missing Shader File", MB_OK);
+			/*MessageBox(hwnd, vsFilename, "Missing Shader File", MB_OK);*/
 		}
 
 		return false;
 	}
 
 	// Compile the pixel shader code.
-	result = D3DX11CompileFromFile(psFilename, NULL, NULL, "TexturePixelShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0, NULL,
-		&pixelShaderBuffer, &errorMessage, NULL);
+	result = D3DCompileFromFile(psFilename, NULL, NULL, "TexturePixelShader", "ps_5_0", D3D10_SHADER_ENABLE_STRICTNESS, 0,
+		&pixelShaderBuffer, &errorMessage);
 	if (FAILED(result))
 	{
 		// If the shader failed to compile it should have writen something to the error message.
@@ -111,7 +111,7 @@ bool TextureShaderClass::InitializeShader(ID3D11Device* device, HWND hwnd, CHAR*
 		// If there was  nothing in the error message then it simply could not find the file itself.
 		else
 		{
-			MessageBox(hwnd, psFilename, "Missing Shader File", MB_OK);
+			/*MessageBox(hwnd, psFilename, "Missing Shader File", MB_OK);*/
 		}
 
 		return false;
@@ -251,7 +251,7 @@ void TextureShaderClass::ShutdownShader()
 
 	return;
 }
-void TextureShaderClass::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, CHAR* shaderFilename)
+void TextureShaderClass::OutputShaderErrorMessage(ID3D10Blob* errorMessage, HWND hwnd, WCHAR* shaderFilename)
 {
 char* compileErrors;
 unsigned long bufferSize, i;
@@ -281,7 +281,7 @@ errorMessage->Release();
 errorMessage = 0;
 
 // Pop a message up on the screen to notify the user to check the text file for compile errors.
-MessageBox(hwnd, "Error compiling shader.  Check shader-error.txt for message.", shaderFilename, MB_OK);
+//MessageBox(hwnd, "Error compiling shader.  Check shader-error.txt for message.", shaderFilename, MB_OK);
 
 return;
 }

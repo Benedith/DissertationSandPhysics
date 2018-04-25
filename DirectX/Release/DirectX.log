@@ -1,0 +1,8 @@
+﻿  SystemClass.cpp
+c:\users\asus\documents\directx - theone\directx\graphicsclass.h(36): warning C4316: 'Camera': object allocated on the heap may not be aligned 16
+  Generating code
+  3 of 664 functions ( 0.5%) were compiled, the rest were copied from previous compilation.
+    0 functions were new in current compilation
+    0 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  DirectX.vcxproj -> C:\Users\ASUS\Documents\DirectX - TheOne\Release\DirectX.exe

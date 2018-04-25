@@ -10,9 +10,11 @@
 #include "ColorShader.h"
 #include "SandManager.h"
 #include "TextureShaderClass.h"
+#include <AntTweakBar.h>
+#include <time.h>
 
 class Model;
-
+class SandManager;
 class GraphicsClass
 {
 public:
@@ -23,6 +25,7 @@ public:
 	bool frame();
 	void shutdown();
 	
+	clock_t getFps();
 
 	Camera* getCamera();
 	static D3DClass* m_direct_3d;
@@ -32,7 +35,10 @@ private:
 
 	Camera* m_camera = new Camera();
 	ColorShader* m_color_shader = new ColorShader();
-	SandManager* m_swarm = new SandManager();
+	SandManager* m_sand = nullptr;
 	TextureShaderClass* m_TextureShader;
 	Model*m_Model;
+
+	clock_t current_ticks, delta_ticks;
+	clock_t fps = 0;
 };

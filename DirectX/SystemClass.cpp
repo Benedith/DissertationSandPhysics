@@ -1,11 +1,13 @@
 #include "SystemClass.h"
 #include "Constants.h"
-
+#include <AntTweakBar.h>
+class thread;
 bool SystemClass::initialize()
 {
 	int screen_width = 0;
 	int screen_height = 0;
 
+	
 	initWindows(screen_width, screen_height);
 
 	if (!m_input_class)
@@ -18,6 +20,7 @@ bool SystemClass::initialize()
 
 	if(!m_graphics_class->initialize(screen_width, screen_height, m_h_window))
 		return false;
+	
 
 	return true;
 }
@@ -36,11 +39,13 @@ void SystemClass::run()
 	MSG msg;
 	bool done = false;
 	bool result = false;
-
+	
 	ZeroMemory(&msg, sizeof(MSG));
 
 	while (!done)
 	{
+		
+		
 		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -63,20 +68,24 @@ void SystemClass::run()
 
 
 
-LRESULT SystemClass::messageHandler(HWND h_window, UINT u_msg, WPARAM w_parameter, LPARAM l_parameter)
+LRESULT SystemClass::messageHandler(HWND h_window, UINT message, WPARAM wparam, LPARAM lparam)
 {
-	switch (u_msg)
+	switch (message)
 	{
+	case WM_MOUSEMOVE:
+		InputClass::HandleMouseEvent(message, wparam, lparam);
+		break;
+		return 0;
 	case WM_KEYDOWN:
-		m_input_class->keyDown((unsigned int)w_parameter);
+		m_input_class->keyDown((unsigned int)wparam);
 		break;
 
 	case WM_KEYUP:
-		m_input_class->keyUp((unsigned int)w_parameter);
+		m_input_class->keyUp((unsigned int)wparam);
 		break;
 
 	default:
-		return DefWindowProc(h_window, u_msg, w_parameter, l_parameter);
+		return DefWindowProc(h_window, message, wparam, lparam);
 		break;
 	}
 
@@ -114,7 +123,7 @@ bool SystemClass::frame()
 	{
 		rotateCamera(0.0f, -1.0f);
 	}
-
+	
 	if(!m_graphics_class->frame())
 		return false;
 
@@ -159,9 +168,9 @@ void SystemClass::initWindows(int& screen_width, int& screen_height)
 	int pos_y;
 
 	ApplicationHandle = this;
-
+	
 	m_h_instance = GetModuleHandle(NULL);
-	m_application_name = "AT Task 2: Swarm AI";
+	m_application_name = "Sand Simulation";
 
 	wnd_cls.style = CS_HREDRAW | CS_VREDRAW | CS_OWNDC;
 	wnd_cls.lpfnWndProc = wndProc;
@@ -197,8 +206,8 @@ void SystemClass::initWindows(int& screen_width, int& screen_height)
 	}
 	else
 	{
-		screen_width = 1920;
-		screen_height = 1080;
+		screen_width = 800;
+		screen_height = 600;
 
 		pos_x = (GetSystemMetrics(SM_CXSCREEN) - screen_width) / 2;
 		pos_y = (GetSystemMetrics(SM_CYSCREEN) - screen_height) / 2;
@@ -240,11 +249,17 @@ void SystemClass::shutdownWindows()
 
 
 
-LRESULT CALLBACK wndProc(HWND h_window, UINT u_message, WPARAM w_parameter, 
-				LPARAM l_parameter)
+LRESULT CALLBACK wndProc(HWND h_window, UINT message, WPARAM wparam, 
+				LPARAM lparam)
 {
-	switch (u_message)
+	if (TwEventWin(h_window, message, wparam, lparam))
+		return 0; 
+	switch (message)
 	{
+	case WM_MOUSEMOVE:
+		InputClass::HandleMouseEvent(message, wparam, lparam);
+		break;
+		return 0;
 		case WM_DESTROY:
 			PostQuitMessage(0);
 			break;
@@ -254,9 +269,10 @@ LRESULT CALLBACK wndProc(HWND h_window, UINT u_message, WPARAM w_parameter,
 			break;
 
 		default:
-			return ApplicationHandle->messageHandler(h_window, u_message, w_parameter, l_parameter);
+			return ApplicationHandle->messageHandler(h_window, message, wparam, lparam);
 			break;
 	}
 
 	return 0;
 }
+

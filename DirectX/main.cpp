@@ -2,9 +2,9 @@
 
 #include "SystemClass.h"
 
+
 int WINAPI WinMain (HINSTANCE h_instance, HINSTANCE h_previous_instance,
-					PSTR p_string_command_line, int i_command_show)
-{
+					PSTR p_string_command_line, int i_command_show){
 	std::unique_ptr<SystemClass> system = std::make_unique<SystemClass>();
 
 	if (!system)

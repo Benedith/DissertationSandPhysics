@@ -1,6 +1,7 @@
 struct PixelInputType
 {
     float4 position : SV_POSITION;
+	float3 normal : NORMAL;
     float4 color : COLOR;
 };
 
@@ -8,5 +9,9 @@ struct PixelInputType
 
 float4 ColorPixelShader(PixelInputType input) : SV_TARGET
 {
-    return input.color;
+	float3 normal = normalize(input.normal);
+	float3 lightdir = normalize(float3(1, 1, 0));
+	float3 lightintensity = float3(10, 10, 10);
+	float3 shaded = max(dot(normal, lightdir), 0) * (input.color.xyz / 3.141592654) * lightintensity;
+    return (float4((shaded * 0.7f) + (input.color.xyz * 0.3f), 1));
 }

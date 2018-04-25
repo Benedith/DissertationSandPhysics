@@ -277,6 +277,9 @@ bool D3DClass::initialize(int width, int height, bool vsync_enabled, HWND h_wind
 	m_world_matrix = XMMatrixIdentity();
 	m_ortho_matrix = XMMatrixOrthographicLH((float)width, (float)height, screen_near, screen_depth);
 
+	
+	TwInit(TW_DIRECT3D11, m_device.get());
+	TwWindowSize(width, height);
 	return true;
 }
 

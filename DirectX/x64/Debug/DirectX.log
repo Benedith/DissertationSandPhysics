@@ -1,0 +1,17 @@
+﻿  ColorShader.cpp
+c:\users\asus\documents\directx - theone - copy\directx\colorshader.h(10): fatal error C1083: Cannot open include file: 'd3dx11async.h': No such file or directory
+  GraphicsClass.cpp
+c:\users\asus\documents\directx - theone - copy\directx\colorshader.h(10): fatal error C1083: Cannot open include file: 'd3dx11async.h': No such file or directory
+  main.cpp
+c:\users\asus\documents\directx - theone - copy\directx\colorshader.h(10): fatal error C1083: Cannot open include file: 'd3dx11async.h': No such file or directory
+  Model.cpp
+c:\users\asus\documents\directx - theone - copy\directx\texture.h(5): fatal error C1083: Cannot open include file: 'd3dx11tex.h': No such file or directory
+  SandManager.cpp
+c:\users\asus\documents\directx - theone - copy\directx\texture.h(5): fatal error C1083: Cannot open include file: 'd3dx11tex.h': No such file or directory
+  SystemClass.cpp
+c:\users\asus\documents\directx - theone - copy\directx\colorshader.h(10): fatal error C1083: Cannot open include file: 'd3dx11async.h': No such file or directory
+  TextureShaderClass.cpp
+c:\users\asus\documents\directx - theone - copy\directx\textureshaderclass.h(5): fatal error C1083: Cannot open include file: 'd3dx10math.h': No such file or directory
+  Texture.cpp
+c:\users\asus\documents\directx - theone - copy\directx\texture.h(5): fatal error C1083: Cannot open include file: 'd3dx11tex.h': No such file or directory
+  Generating Code...

@@ -10,6 +10,7 @@
 //Custom Includes
 #include "InputClass.h"
 #include "GraphicsClass.h"
+#include <time.h>
 
 class SystemClass
 {
@@ -36,6 +37,7 @@ private:
 
 	std::unique_ptr<InputClass> m_input_class = std::make_unique<InputClass>();
 	std::unique_ptr<GraphicsClass> m_graphics_class = std::make_unique<GraphicsClass>();
+	void CreateConsole();
 };
 
 static LRESULT CALLBACK wndProc(HWND, UINT, WPARAM, LPARAM);

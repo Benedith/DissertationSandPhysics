@@ -7,7 +7,7 @@
 #include <DirectXMath.h>
 
 #include <fstream>
-#include <d3dx11async.h>
+//#include <d3dx11async.h>
 //Custom Includes
 
 
@@ -33,9 +33,9 @@ private:
 		DirectX::XMMATRIX projection;
 	};
 
-	bool initializeShader(ID3D11Device*, HWND, CHAR*, CHAR*);
+	bool initializeShader(ID3D11Device*, HWND, WCHAR*, WCHAR*);
 	void shutdownShader();
-	void outputShaderErrorMessage(ID3D10Blob* error_message, HWND h_window, CHAR* shader_file_name);
+	void outputShaderErrorMessage(ID3D10Blob* error_message, HWND h_window, WCHAR* shader_file_name);
 
 	bool setshaderParameters(ID3D11DeviceContext* device_context, DirectX::XMMATRIX world_matrix, DirectX::XMMATRIX view_matrix, DirectX::XMMATRIX projection_matrix);
 	void renderShader(ID3D11DeviceContext* device_context, int vertex_count, int instance_count);

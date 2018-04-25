@@ -2,7 +2,7 @@
 #define _TEXTURECLASS_H_
 
 #include <d3d11.h>
-#include <d3dx11tex.h>
+//#include <d3dx11tex.h>
 #include<DirectXMath.h>
 
 class Texture
