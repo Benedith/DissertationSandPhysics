@@ -159,10 +159,8 @@ void SandManager::gravity() //Physics calculations before dual layer is activate
 				SandLayer(i);
 				nCount++;
 			}
-			if (applyWind == true)
-			{
-				sandParticles->sandAccelerations[i] = sandParticles->sandAccelerations[i] + ((Vector3(100, 180, 0)/100000) *windForce);
-			}
+				sandParticles->sandAccelerations[i] = sandParticles->sandAccelerations[i] + ((Vector3(100, 180, 100)/100000)*windForce);
+
 			
 			/*bool collided = sphereCollisions(i, sandParticles->gridNum[i]);*/ //spatial partitioning attempt
 			bool collided = m_sand_models->sphereColliding(i);
@@ -288,7 +286,7 @@ void SandManager::AntTweakBar()
 	
 	
 	TwAddVarRW(myBar, "GravitationalForce", TW_TYPE_FLOAT, &GravitationalForce, "min=0.01 max= 1.5 step=0.01");
-	/*TwAddVarRW(myBar, "WindForce", TW_TYPE_FLOAT, &windForce, "min=-40.0 max= 40.0 step=0.1");*/
+	/*TwAddVarRW(myBar, "WindForce", TW_TYPE_FLOAT, &windForce, "min=-40.0 max= 40.0 step=1.0");*/
 	TwAddVarRW(myBar, "resetCollision", TW_TYPE_BOOLCPP, &resetCollision, "true = enabled, false= press to reset");
 	
 }

@@ -99,11 +99,11 @@ bool SystemClass::frame()
 	if (m_input_class->getKeyDown(VK_ESCAPE))
 		return false;
 
-	if (m_input_class->getKeyDown(VK_UP))
+	if (m_input_class->getKeyDown(VK_SPACE))
 	{
 		moveCamera(0.0f, 0.5f);
 	}
-	if (m_input_class->getKeyDown(VK_DOWN))
+	if (m_input_class->getKeyDown(VK_NUMPAD2))
 	{
 		moveCamera(0.0f, -0.5f);
 	}
@@ -123,7 +123,14 @@ bool SystemClass::frame()
 	{
 		rotateCamera(0.0f, -1.0f);
 	}
-	
+	if ((m_input_class->getKeyDown(VK_UP)))
+	{
+		moveCamera(0.0f, 0.0f, 0.5f);
+	}
+	if ((m_input_class->getKeyDown(VK_DOWN)))
+	{
+		moveCamera(0.0f, 0.0f, -0.5f);
+	}
 	if(!m_graphics_class->frame())
 		return false;
 

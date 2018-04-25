@@ -71,7 +71,8 @@ private:
 	Vector3 averageSandPos = Vector3();
 	Vector3 averageSandVel = Vector3(10,-10,10); //-10 y to stop it activating imediatly
 	bool applyWind = true;
-	int windForce = 0;
+	int windForce = 1;
+	int whyWindWhy = 0;
 	bool resetCollision = false;
 	float newMass;
 

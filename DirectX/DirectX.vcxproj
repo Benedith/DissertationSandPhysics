@@ -135,11 +135,9 @@
     <ClCompile Include="ColorShader.cpp" />
     <ClCompile Include="d3dclass.cpp" />
     <ClCompile Include="GraphicsClass.cpp" />
-    <ClCompile Include="GridGeneration.cpp" />
     <ClCompile Include="InputClass.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
-    <ClCompile Include="Node.cpp" />
     <ClCompile Include="SandManager.cpp" />
     <ClCompile Include="SystemClass.cpp" />
     <ClCompile Include="TextureShaderClass.cpp" />
@@ -152,10 +150,8 @@
     <ClInclude Include="Constants.h" />
     <ClInclude Include="d3dclass.h" />
     <ClInclude Include="GraphicsClass.h" />
-    <ClInclude Include="GridGeneration.h" />
     <ClInclude Include="InputClass.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="Node.h" />
     <ClInclude Include="SandManager.h" />
     <ClInclude Include="SystemClass.h" />
     <ClInclude Include="TextureShaderClass.h" />

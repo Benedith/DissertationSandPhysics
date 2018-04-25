@@ -1,17 +1,48 @@
-﻿  ColorShader.cpp
-c:\users\asus\documents\directx - theone - copy\directx\colorshader.h(10): fatal error C1083: Cannot open include file: 'd3dx11async.h': No such file or directory
+﻿  Bmath.cpp
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\bmath.h(33): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\bmath.cpp(109): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\bmath.cpp(108): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\bmath.cpp(118): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\bmath.cpp(116): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\bmath.cpp(125): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\bmath.cpp(124): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\bmath.cpp(137): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\bmath.cpp(137): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\bmath.cpp(158): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\bmath.cpp(158): warning C4244: 'initializing': conversion from 'double' to 'const float', possible loss of data
+  Camera.cpp
+  ColorShader.cpp
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\colorshader.cpp(53): error C2664: 'int MessageBoxW(HWND,LPCWSTR,LPCWSTR,UINT)': cannot convert argument 2 from 'LPSTR' to 'LPCWSTR'
+  c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\colorshader.cpp(53): note: Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\colorshader.cpp(66): error C2664: 'int MessageBoxW(HWND,LPCWSTR,LPCWSTR,UINT)': cannot convert argument 2 from 'LPSTR' to 'LPCWSTR'
+  c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\colorshader.cpp(66): note: Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\colorshader.cpp(215): error C2664: 'int MessageBoxW(HWND,LPCWSTR,LPCWSTR,UINT)': cannot convert argument 2 from 'const char [57]' to 'LPCWSTR'
+  c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\colorshader.cpp(215): note: Types pointed to are unrelated; conversion requires reinterpret_cast, C-style cast or function-style cast
+  d3dclass.cpp
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\d3dclass.h(10): fatal error C1083: Cannot open include file: 'AntTweakBar.h': No such file or directory
   GraphicsClass.cpp
-c:\users\asus\documents\directx - theone - copy\directx\colorshader.h(10): fatal error C1083: Cannot open include file: 'd3dx11async.h': No such file or directory
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\d3dclass.h(10): fatal error C1083: Cannot open include file: 'AntTweakBar.h': No such file or directory
+  GridGeneration.cpp
+  InputClass.cpp
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\bmath.h(33): warning C4244: 'return': conversion from 'double' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\inputclass.cpp(45): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\inputclass.cpp(46): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\inputclass.cpp(74): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\inputclass.cpp(75): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\inputclass.cpp(76): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\inputclass.cpp(77): warning C4244: '=': conversion from 'int' to 'float', possible loss of data
   main.cpp
-c:\users\asus\documents\directx - theone - copy\directx\colorshader.h(10): fatal error C1083: Cannot open include file: 'd3dx11async.h': No such file or directory
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\d3dclass.h(10): fatal error C1083: Cannot open include file: 'AntTweakBar.h': No such file or directory
   Model.cpp
-c:\users\asus\documents\directx - theone - copy\directx\texture.h(5): fatal error C1083: Cannot open include file: 'd3dx11tex.h': No such file or directory
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\model.h(46): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\d3dclass.h(10): fatal error C1083: Cannot open include file: 'AntTweakBar.h': No such file or directory
+  Node.cpp
   SandManager.cpp
-c:\users\asus\documents\directx - theone - copy\directx\texture.h(5): fatal error C1083: Cannot open include file: 'd3dx11tex.h': No such file or directory
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\d3dclass.h(10): fatal error C1083: Cannot open include file: 'AntTweakBar.h': No such file or directory
   SystemClass.cpp
-c:\users\asus\documents\directx - theone - copy\directx\colorshader.h(10): fatal error C1083: Cannot open include file: 'd3dx11async.h': No such file or directory
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\d3dclass.h(10): fatal error C1083: Cannot open include file: 'AntTweakBar.h': No such file or directory
   TextureShaderClass.cpp
-c:\users\asus\documents\directx - theone - copy\directx\textureshaderclass.h(5): fatal error C1083: Cannot open include file: 'd3dx10math.h': No such file or directory
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\textureshaderclass.cpp(265): warning C4244: '=': conversion from 'SIZE_T' to 'unsigned long', possible loss of data
   Texture.cpp
-c:\users\asus\documents\directx - theone - copy\directx\texture.h(5): fatal error C1083: Cannot open include file: 'd3dx11tex.h': No such file or directory
+c:\users\asus\documents\dissertation sand sim\dissertationsandphysics\directx\texture.cpp(19): warning C4101: 'result': unreferenced local variable
   Generating Code...
