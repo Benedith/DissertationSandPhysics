@@ -33,7 +33,7 @@ public:
 	void SpatialPartitioning(int i);
 	bool sphereCollisions(int, int);
 private:
-	int SandCount = 4000;
+	int SandCount = 5000;
 	int impactCount = 100;
 	int runCount = 0;
 	Model* m_sand_models = nullptr;
@@ -71,7 +71,7 @@ private:
 	Vector3 averageSandPos = Vector3();
 	Vector3 averageSandVel = Vector3(10,-10,10); //-10 y to stop it activating imediatly
 	bool applyWind = true;
-	int windForce = 1;
+	int windForce = 0;
 	int whyWindWhy = 0;
 	bool resetCollision = false;
 	float newMass;

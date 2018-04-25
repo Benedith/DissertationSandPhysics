@@ -4,8 +4,8 @@
 class thread;
 bool SystemClass::initialize()
 {
-	int screen_width = 0;
-	int screen_height = 0;
+	int screen_width = 1920;
+	int screen_height = 1080;
 
 	
 	initWindows(screen_width, screen_height);
@@ -213,8 +213,8 @@ void SystemClass::initWindows(int& screen_width, int& screen_height)
 	}
 	else
 	{
-		screen_width = 800;
-		screen_height = 600;
+		screen_width = 1920;
+		screen_height = 1080;
 
 		pos_x = (GetSystemMetrics(SM_CXSCREEN) - screen_width) / 2;
 		pos_y = (GetSystemMetrics(SM_CYSCREEN) - screen_height) / 2;
